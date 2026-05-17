@@ -1,0 +1,15 @@
+import { Router } from "express";
+import authMiddleware from "../middlewares/auth-middleware.js";
+import adminMiddleware from "../middlewares/admin-middleware.js";
+import bookControllers from "../controllers/bookControllers.js";
+import { upload } from "../config/multer.js";
+
+const bookRouter = Router();
+
+bookRouter.post("/",authMiddleware,adminMiddleware,upload.single("image"),bookControllers.createBook);
+bookRouter.get("/",bookControllers.getBooks);
+bookRouter.get("/:_id",bookControllers.getBook);
+bookRouter.put("/:_id",authMiddleware,adminMiddleware,upload.single("image"),bookControllers.updateBook);
+bookRouter.delete("/:_id",authMiddleware,adminMiddleware,bookControllers.deleteBook);
+
+export default bookRouter;
